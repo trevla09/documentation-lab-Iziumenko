@@ -1,1 +1,93 @@
+1. Отримати список сеансів
 
+GET /sessions
+
+Повертає список доступних кіносеансів.
+
+Приклад запиту
+GET /v1/sessions HTTP/1.1
+Host: api.cinema.example.com
+
+
+Приклад відповіді (200 OK)
+{
+"sessions": [
+{
+"id": 101,
+"movie": "Inception",
+"start_time": "2025-12-20T18:30:00",
+"hall": 1,
+"price": 150
+},
+{
+"id": 102,
+"movie": "Interstellar",
+"start_time": "2025-12-20T21:00:00",
+"hall": 2,
+"price": 170
+}
+]
+}
+
+Отримати деталі конкретного сеансу
+
+GET /sessions/{id}
+
+Повертає детальну інформацію про вибраний сеанс.
+
+Приклад запиту
+GET /v1/sessions/101 HTTP/1.1
+Host: api.cinema.example.com
+
+Приклад відповіді (200 OK)
+{
+"id": 101,
+"movie": "Inception",
+"start_time": "2025-12-20T18:30:00",
+"hall": 1,
+"available_seats": 42
+}
+
+
+Приклад відповіді (404 Not Found)
+{
+"error": "Session not found"
+}
+
+Забронювати квиток
+
+POST /bookings
+
+Створює бронювання квитка на вибраний сеанс.
+
+Приклад запиту
+POST /v1/bookings HTTP/1.1
+Host: api.cinema.example.com
+Content-Type: application/json
+
+
+{
+"session_id": 101,
+"customer_name": "Іван Петренко",
+"seat_number": "B12"
+}
+
+Приклад відповіді (201 Created)
+{
+"booking_id": 5551,
+"status": "confirmed",
+"session_id": 101,
+"seat_number": "B12"
+}
+
+Приклад відповіді (400 Bad Request)
+{
+"error": "Seat already booked"
+}
+
+Код	Опис
+200	Успішний запит
+201	Ресурс успішно створено
+400	Некоректний запит
+404	Ресурс не знайдено
+500	Внутрішня помилка сервера
